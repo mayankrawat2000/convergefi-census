@@ -1,0 +1,35 @@
+# Secrets & configuration
+.env
+.env.*
+
+# Python Cache & build directories
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.coverage
+.mypy_cache/
+
+# Virtual Environments
+venv/
+myenv/
+.venv/
+env/
+ENV/
+
+# Node.js / React build files
+react-frontend/node_modules/
+react-frontend/dist/
+react-frontend/.vite/
+
+# Dynamic workspace directories (dynamic charts, runs, and session logs)
+workspace/artifacts/*
+workspace/code/*
+workspace/history/*
+!workspace/artifacts/.gitkeep
+!workspace/code/.gitkeep
+!workspace/history/.gitkeep
+
+# OS files
+.DS_Store
+Thumbs.db
