@@ -11,7 +11,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy backend app
+# Copy backend app, workspace data/databases, and source PDFs
+COPY workspace/ ./workspace/
+COPY data/ ./data/
 COPY app/ ./app/
 
 # Expose backend API port

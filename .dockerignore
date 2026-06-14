@@ -1,0 +1,28 @@
+# Secrets
+.env
+.env.*
+
+# Python Cache & build
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+
+# Virtual Environments
+venv/
+myenv/
+.venv/
+env/
+
+# Node.js
+react-frontend/node_modules/
+react-frontend/dist/
+react-frontend/.vite/
+
+# Dynamic workspace directories
+workspace/artifacts/*
+workspace/code/*
+workspace/history/*
+!workspace/artifacts/.gitkeep
+!workspace/code/.gitkeep
+!workspace/history/.gitkeep
