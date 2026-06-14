@@ -115,11 +115,11 @@ function SessionItem({ session, isActive, onLoad, onDelete }) {
 
 // ─── Sidebar ───────────────────────────────────────────────────────────────────
 
-export default function Sidebar({ onNewChat, onLoadSession, onDeleteSession, sessions, sessionsLoading, activeSessionId, isHome, onLogout }) {
+export default function Sidebar({ onNewChat, onLoadSession, onDeleteSession, sessions, sessionsLoading, activeSessionId, isHome, onLogout, isOpen }) {
   const { theme, toggleTheme } = useTheme()
 
   return (
-    <nav className="sidebar" aria-label="Navigation">
+    <nav className={`sidebar${isOpen ? ' sidebar-open' : ''}`} aria-label="Navigation">
       {/* Header */}
       <div className="sidebar-header">
         <div className="sidebar-logo" title="Converge">

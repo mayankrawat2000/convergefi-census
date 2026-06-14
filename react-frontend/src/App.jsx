@@ -5,6 +5,7 @@ import HomePage from './components/HomePage'
 import ResultsPage from './components/ResultsPage'
 import LoginPage from './components/LoginPage'
 import { streamChat, listSessions, loadSession, deleteSession } from './api/client'
+import logo from './logo.png'
 
 export const ThemeContext = createContext()
 export const useTheme = () => useContext(ThemeContext)
@@ -15,6 +16,7 @@ const AUTH_KEY = 'convergefi_auth'
 const THEME_KEY = 'convergefi_theme'
 
 export default function App() {
+  const [sidebarOpen, setSidebarOpen] = useState(false)
   const [isAuthenticated, setIsAuthenticated] = useState(() =>
     sessionStorage.getItem(AUTH_KEY) === '1'
   )
@@ -277,15 +279,53 @@ export default function App() {
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme }}>
       <div className="app-layout">
+        {/* Mobile top bar */}
+        <div className="mobile-topbar">
+          <button
+            className="mobile-menu-btn"
+            onClick={() => setSidebarOpen(o => !o)}
+            aria-label="Open sidebar"
+          >
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
+                 strokeLinecap="round" strokeLinejoin="round" width="20" height="20">
+              <line x1="3" y1="6" x2="21" y2="6" />
+              <line x1="3" y1="12" x2="21" y2="12" />
+              <line x1="3" y1="18" x2="21" y2="18" />
+            </svg>
+          </button>
+          <img src={logo} alt="Converge" className="mobile-topbar-logo" />
+          <button
+            className="mobile-new-chat-btn"
+            onClick={() => { handleNewChat(); setSidebarOpen(false) }}
+            aria-label="New Chat"
+          >
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
+                 strokeLinecap="round" strokeLinejoin="round" width="18" height="18">
+              <line x1="12" y1="5" x2="12" y2="19" />
+              <line x1="5" y1="12" x2="19" y2="12" />
+            </svg>
+          </button>
+        </div>
+
+        {/* Sidebar overlay for mobile */}
+        {sidebarOpen && (
+          <div
+            className="sidebar-overlay"
+            onClick={() => setSidebarOpen(false)}
+            aria-hidden="true"
+          />
+        )}
+
         <Sidebar
-          onNewChat={handleNewChat}
-          onLoadSession={handleLoadSession}
+          onNewChat={() => { handleNewChat(); setSidebarOpen(false) }}
+          onLoadSession={(id) => { handleLoadSession(id); setSidebarOpen(false) }}
           onDeleteSession={handleDeleteSession}
           sessions={sessions}
           sessionsLoading={sessionsLoading}
           activeSessionId={sessionId}
           isHome={isHome}
           onLogout={handleLogout}
+          isOpen={sidebarOpen}
         />
         <main className="main-content">
           {isHome ? (

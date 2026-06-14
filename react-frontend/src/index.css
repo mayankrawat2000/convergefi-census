@@ -1518,3 +1518,252 @@ html, body {
   text-align: center;
   line-height: 1.5;
 }
+
+/* ═══════════════════════════════════════════════
+   RESPONSIVE / MOBILE
+   ═══════════════════════════════════════════════ */
+
+/* ─── Mobile Topbar (hidden on desktop) ─── */
+.mobile-topbar {
+  display: none;
+}
+
+/* ─── Sidebar Overlay (hidden on desktop) ─── */
+.sidebar-overlay {
+  display: none;
+}
+
+/* ─── Tablet & Mobile: ≤ 768px ─── */
+@media (max-width: 768px) {
+  /* Hide desktop sidebar from the normal flow; keep it as an off-canvas drawer */
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: min(var(--sidebar-w), 80vw);
+    z-index: 200;
+    transform: translateX(-105%);
+    transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    box-shadow: none;
+  }
+
+  .sidebar.sidebar-open {
+    transform: translateX(0);
+    box-shadow: 4px 0 32px rgba(0, 0, 0, 0.18);
+  }
+
+  /* Semi-transparent backdrop */
+  .sidebar-overlay {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 199;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+    animation: fadeIn 0.2s ease-out;
+  }
+
+  /* Show the mobile topbar */
+  .mobile-topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 52px;
+    z-index: 100;
+    background: var(--sidebar-bg);
+    border-bottom: 1px solid var(--border);
+    padding: 0 12px;
+    flex-shrink: 0;
+  }
+
+  /* The app-layout no longer has a sidebar column */
+  .app-layout {
+    flex-direction: column;
+  }
+
+  /* Main content sits below the fixed topbar */
+  .main-content {
+    padding-top: 52px;
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  /* Mobile menu (hamburger) button */
+  .mobile-menu-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border: none;
+    background: transparent;
+    color: var(--text-primary);
+    cursor: pointer;
+    border-radius: var(--radius-sm);
+    transition: background 0.15s;
+  }
+
+  .mobile-menu-btn:hover,
+  .mobile-menu-btn:active {
+    background: var(--sidebar-hover);
+  }
+
+  /* Logo in topbar */
+  .mobile-topbar-logo {
+    height: 20px;
+    width: auto;
+  }
+
+  [data-theme="dark"] .mobile-topbar-logo {
+    filter: brightness(0) invert(1);
+  }
+
+  /* New-chat button in topbar */
+  .mobile-new-chat-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--text-secondary);
+    cursor: pointer;
+    border-radius: var(--radius-sm);
+    transition: all 0.15s;
+  }
+
+  .mobile-new-chat-btn:hover {
+    background: var(--sidebar-hover);
+    color: var(--text-primary);
+    border-color: var(--border-strong);
+  }
+
+  /* ─── Home page on mobile ─── */
+  .home-page {
+    padding: 24px 16px 100px;
+    gap: 20px;
+    justify-content: flex-start;
+    padding-top: 40px;
+  }
+
+  .home-logo {
+    font-size: 1.45rem;
+    text-align: center;
+  }
+
+  .search-card {
+    max-width: 100%;
+  }
+
+  .search-textarea {
+    font-size: 0.92rem;
+    padding: 14px 16px 6px;
+  }
+
+  .search-card-footer {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .suggestions {
+    max-width: 100%;
+    gap: 6px;
+  }
+
+  .suggestion-pill {
+    font-size: 0.75rem;
+    padding: 5px 11px;
+  }
+
+  /* ─── Thread / Results page on mobile ─── */
+  .thread-scroll {
+    padding: 24px 16px 24px;
+  }
+
+  .thread-inner {
+    max-width: 100%;
+  }
+
+  .thread-question {
+    font-size: 1.2rem;
+  }
+
+  .followup-bar {
+    padding: 10px 12px 14px;
+  }
+
+  .followup-card {
+    max-width: 100%;
+    padding: 4px 8px 4px 14px;
+  }
+
+  /* ─── Source cards narrower on mobile ─── */
+  .source-card {
+    width: 140px;
+  }
+
+  /* ─── PDF modal full-screen on mobile ─── */
+  .pdf-modal-overlay {
+    padding: 0;
+    align-items: flex-end;
+  }
+
+  .pdf-modal-container {
+    max-width: 100%;
+    height: 92vh;
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  }
+
+  /* ─── Login card full-width on mobile ─── */
+  .login-card {
+    max-width: 100%;
+    margin: 16px;
+    padding: 32px 24px;
+  }
+}
+
+/* ─── Small phones: ≤ 480px ─── */
+@media (max-width: 480px) {
+  .home-logo {
+    font-size: 1.25rem;
+  }
+
+  .thread-question {
+    font-size: 1.1rem;
+  }
+
+  .search-textarea {
+    min-height: 48px;
+    font-size: 0.88rem;
+  }
+
+  .source-card {
+    width: 130px;
+  }
+
+  .suggestion-pill {
+    font-size: 0.73rem;
+    padding: 5px 10px;
+  }
+
+  .followup-input {
+    font-size: 0.85rem;
+  }
+
+  .login-heading {
+    font-size: 1.65rem;
+  }
+
+  .model-select {
+    font-size: 0.7rem;
+    padding: 3px 6px;
+  }
+}
+
