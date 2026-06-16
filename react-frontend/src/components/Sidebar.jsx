@@ -164,8 +164,6 @@ export default function Sidebar({ onNewChat, onLoadSession, onDeleteSession, ses
         )}
       </div>
 
-      <div className="sidebar-spacer" />
-
       {/* Theme Toggle & Logout */}
       <div className="sidebar-footer">
         <div className="theme-toggle-wrapper">

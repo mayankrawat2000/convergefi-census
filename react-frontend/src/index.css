@@ -276,7 +276,6 @@ html, body {
 }
 
 /* ─── Sidebar Footer ─── */
-.sidebar-spacer { flex: 1; }
 
 .sidebar-footer {
   border-top: 1px solid var(--border);
