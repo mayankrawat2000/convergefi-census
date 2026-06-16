@@ -1,8 +1,12 @@
-// Thin API client — uses relative URLs so nginx proxy handles routing in Docker,
-// and Vite's dev proxy handles it locally.
+// Thin API client — uses absolute URLs in production to bypass Vercel proxy limits,
+// and relative URLs locally for Vite's dev proxy.
+
+const API_BASE = import.meta.env.PROD 
+  ? (import.meta.env.VITE_API_URL || 'https://convergefi-census.onrender.com')
+  : '';
 
 export async function sendChat(message, sessionId, model) {
-  const resp = await fetch('/api/chat', {
+  const resp = await fetch(`${API_BASE}/api/chat`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ message, session_id: sessionId, model }),
@@ -22,7 +26,7 @@ export async function sendChat(message, sessionId, model) {
  *   { type: 'error', message: '...' }
  */
 export async function* streamChat(message, sessionId, model) {
-  const resp = await fetch('/api/chat/stream', {
+  const resp = await fetch(`${API_BASE}/api/chat/stream`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ message, session_id: sessionId, model }),
@@ -69,7 +73,7 @@ export async function* streamChat(message, sessionId, model) {
 /** List all sessions (newest first). Returns [{ session_id, title, updated_at }] */
 export async function listSessions() {
   try {
-    const resp = await fetch('/api/sessions')
+    const resp = await fetch(`${API_BASE}/api/sessions`)
     if (!resp.ok) return []
     return resp.json()
   } catch (_) { return [] }
@@ -78,7 +82,7 @@ export async function listSessions() {
 /** Load full message list for a session (for UI replay). */
 export async function loadSession(sessionId) {
   try {
-    const resp = await fetch(`/api/sessions/${sessionId}`)
+    const resp = await fetch(`${API_BASE}/api/sessions/${sessionId}`)
     if (!resp.ok) return null
     return resp.json()
   } catch (_) { return null }
@@ -87,7 +91,7 @@ export async function loadSession(sessionId) {
 /** Delete a session from MongoDB. */
 export async function deleteSession(sessionId) {
   try {
-    await fetch(`/api/sessions/${sessionId}`, { method: 'DELETE' })
+    await fetch(`${API_BASE}/api/sessions/${sessionId}`, { method: 'DELETE' })
   } catch (_) { /* best-effort */ }
 }
 
@@ -98,7 +102,7 @@ export async function clearHistory(sessionId) {
 
 export async function getHealth() {
   try {
-    const resp = await fetch('/api/health')
+    const resp = await fetch(`${API_BASE}/api/health`)
     if (!resp.ok) return { status: 'offline' }
     return resp.json()
   } catch (_) {
@@ -109,7 +113,7 @@ export async function getHealth() {
 /** Validate credentials against backend env USER_ID/PASSWORD. Returns true on success. */
 export async function login(userId, password) {
   try {
-    const resp = await fetch('/api/login', {
+    const resp = await fetch(`${API_BASE}/api/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ user_id: userId, password }),

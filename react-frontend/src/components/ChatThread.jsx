@@ -127,6 +127,10 @@ function CitationsExpander({ citations }) {
   )
 }
 
+const API_BASE = import.meta.env.PROD 
+  ? (import.meta.env.VITE_API_URL || 'https://convergefi-census.onrender.com')
+  : '';
+
 function ArtifactBlock({ artifact }) {
   const { name, type, description } = artifact
 
@@ -134,7 +138,7 @@ function ArtifactBlock({ artifact }) {
     return (
       <div style={{ marginTop: 12 }}>
         <img
-          src={`/api/artifacts/${name}`}
+          src={`${API_BASE}/api/artifacts/${name}`}
           alt={description}
           className="artifact-img"
           loading="lazy"
@@ -150,7 +154,7 @@ function ArtifactBlock({ artifact }) {
 
   return (
     <a
-      href={`/api/artifacts/${name}`}
+      href={`${API_BASE}/api/artifacts/${name}`}
       target="_blank"
       rel="noopener noreferrer"
       className="artifact-link"
@@ -164,7 +168,7 @@ function ArtifactMarkdown({ name, description }) {
   const [content, setContent] = useState(null)
 
   useEffect(() => {
-    fetch(`/api/artifacts/${name}`)
+    fetch(`${API_BASE}/api/artifacts/${name}`)
       .then(r => r.ok ? r.text() : Promise.reject())
       .then(setContent)
       .catch(() => setContent('*Could not load artifact.*'))
@@ -360,7 +364,7 @@ export default function ChatThread({ messages, isLoading }) {
                         ) {
                           // Strip any leading "artifacts/" prefix the agent might add
                           const filename = fixedSrc.replace(/^artifacts\//, '').replace(/^\//, '')
-                          fixedSrc = `/api/artifacts/${filename}`
+                          fixedSrc = `${API_BASE}/api/artifacts/${filename}`
                         }
                         return (
                           <img

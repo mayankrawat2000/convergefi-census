@@ -2,11 +2,15 @@ import { useState, useEffect, useCallback } from 'react'
 
 // ─── PDF Preview Modal ─────────────────────────────────────────────────────────
 
+const API_BASE = import.meta.env.PROD 
+  ? (import.meta.env.VITE_API_URL || 'https://convergefi-census.onrender.com')
+  : '';
+
 function PdfModal({ cite, onClose }) {
   // Always use the .pdf file — the agent may cite .md filenames
   const rawFilename = cite.source_document.replace(/^.*[\\/]/, '')
   const pdfFilename = rawFilename.replace(/\.md$/i, '.pdf')
-  const pdfUrl = `/api/pdf/${encodeURIComponent(pdfFilename)}#page=${cite.page_number}`
+  const pdfUrl = `${API_BASE}/api/pdf/${encodeURIComponent(pdfFilename)}#page=${cite.page_number}`
 
   const shortName = rawFilename
     .replace('PC11_PCA_Data_Highlights_', '')
